@@ -83,3 +83,28 @@
 
 
 # JAVA SCRIPT #
+
+  var titulo = documnet.querySelector(".titulo");
+  
+  titulo.textContent = "Aperecida Nutricionista"
+
+
+  var paciente = document.quarySelector("#primeiro-paciente")
+
+  var tdPeso = paciente.quarySelector(".info-peso")
+  var peso = tdPeso.textContent;
+
+  var tdAltura = paciente.quarySelector("info-altura")
+  var altura = tdAltura.textContent;
+
+  tdImc = paciente.quarySelector("info-imc")
+
+  if(peso < 0){
+    conlole.log("Peso Inválido")
+
+  if(peso > 1000){
+    console.log("Peso Inválido")
+  }
+
+  var imc = peso / (altura*altura);
+  idImc.textContent = imc;
