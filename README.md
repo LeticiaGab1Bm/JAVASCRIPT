@@ -1,4 +1,6 @@
-# HTML JAVA SCRIPT #
+# JAVASCRIPT #
+
+### index.html ###
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -31,7 +33,7 @@
 						</tr>
 					</thead>
 					<tbody id="tabela-pacientes">
-						<tr class="paciente" >
+						<tr class="paciente" id="primeiro-paciente">
 							<td class="info-nome">Paulo</td>
 							<td class="info-peso">100</td>
 							<td class="info-altura">2.00</td>
@@ -82,29 +84,183 @@
 </html>
 
 
-# JAVA SCRIPT #
+# principal.js #
 
   var titulo = documnet.querySelector(".titulo");
-  
-  titulo.textContent = "Aperecida Nutricionista"
+titulo.textContent = "Aperecida Nutricionista"
+
+var pacientes = document.quarySelectorAll(".paciente")
+
+for(var i = 0; i < paciente.length; i++){
+
+    var paciente= pacientes[i];
+
+    var tdPeso = paciente.quarySelector(".info-peso")
+var peso = tdPeso.textContent;
+
+var tdAltura = paciente.quarySelector(".info-altura")
+var altura = tdAltura.textContent;
+
+var pesoEhValido = true; // assumindo de boa fé que o peso é válido
+var alturaEhValida = true; // assumindo de boa fé que a altura é válida
+
+if (peso <= 0 || peso > 1000) {
+    console.log("Peso inválido!");
+    pesoEhValido = false;
+    tdPeso.textContent = "Peso inválido!";
+    paciente.classListadd.add("paciente-invalido")
+}
+
+if (altura <= 0 || altura >= 3.00) {
+    console.log("Altura inválida!");
+    alturaEhValida = false;
+    tdAltura.textContent = "Altura inválida!";
+    paciente.classListadd.add("paciente-invalido")
+}
+
+if (alturaEhValida && pesoEhValido) {
+    var imc = peso / (altura * altura);
+    tdImc.textContent = imc.toFixed(2);    
+}
 
 
-  var paciente = document.quarySelector("#primeiro-paciente")
+### index.css ###
+ 
+*{
+	box-sizing: border-box;
+ }
 
-  var tdPeso = paciente.quarySelector(".info-peso")
-  var peso = tdPeso.textContent;
+body{
+	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+}
 
-  var tdAltura = paciente.quarySelector("info-altura")
-  var altura = tdAltura.textContent;
+header{
+	background-color: #333;
+	height: 3em;
+	color: #FFF;
+	margin-bottom: 1em;
+}
 
-  tdImc = paciente.quarySelector("info-imc")
+header h1{
+	font-size: 2em;
+	display:inline-block;
+	vertical-align:	middle;
+}
+header h2{
+	font-size: 2em;
+	display:inline-block;
+	vertical-align:	middle;
+}
 
-  if(peso < 0){
-    conlole.log("Peso Inválido")
+header .container:before{
+	content: '';
+	display:inline-block;
+	height: 100%;
+	vertical-align:	middle;
+}
 
-  if(peso > 1000){
-    console.log("Peso Inválido")
-  }
+.container{
+	width: 60%;
+	height: 100%;
+	margin: 0 auto;
+}
 
-  var imc = peso / (altura*altura);
-  idImc.textContent = imc;
+section{
+	margin: 2em 0;
+	overflow: hidden;
+}
+
+section h2{
+	font-size: 3em;
+	display: block;
+	padding-bottom: .5em;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: .5em;
+}
+
+table{
+	width: 100%;
+	margin-bottom : .5em;
+    table-layout: fixed;
+
+}
+
+td, th {
+	padding: .7em;
+	margin: 0;
+	border: 1px solid #ccc;
+	text-align: center;
+}
+
+th{
+	font-weight: bold;
+	background-color: #EEE;
+}
+
+label{
+	color: #555;
+	display: block;
+	margin-bottom: .2em;
+}
+
+.campo{
+	margin: 0;
+	padding-bottom: 1em;
+	width: 100%;
+	border: 1px solid #ccc;
+	padding: .7em;
+	width: 100%;
+}
+
+.campo-medio{
+	display: inline-block;
+	padding-right: .5em;
+}
+
+.grupo{
+	width: 32%;
+	display: inline-block;
+	padding: 10px 0px;
+}
+
+button{
+	padding: .5em 2em;
+	border: 0;
+	border-bottom: 3px solid;
+	font-size: 1.2em;
+	cursor: pointer;
+	margin: 0;
+	margin-top: -3px;
+	color: #fff;
+	background-color:#0c8cd3;
+	border-color: #04324c;
+	width: 20%;
+    display: block;
+    clear: both;
+    margin: 10px 0px;
+
+}
+
+button:active{
+	margin-top:0px;
+	border: 0;
+}
+
+button[disabled=disabled], button:disabled {
+    background-color: gray;
+	border-color: darkgray;
+
+}
+
+.adicionar-paciente{
+    margin-top: 30px;
+}
+
+.campo-invalido{
+	border: 1px solid red;
+}
+
+.paciente-invalido{
+	background-color: lightcoral;
+}
