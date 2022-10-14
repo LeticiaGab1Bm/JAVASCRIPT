@@ -76,57 +76,116 @@
 
 			</section>
 		</main>
+
+			<section class="container">
+			    <h2 id="titulo-form">Adicionar novo paciente</h2>
+			    <form id="form-adiciona">
+			        <div class="grupo">
+			            <label for="nome">Nome:</label>
+			            <input id="nome" name="nome" type="text" placeholder="digite o nome do seu paciente" class="campo">
+			        </div>
+			        <div class="grupo">
+			            <label for="peso">Peso:</label>
+			            <input id="peso" name="peso" type="text" placeholder="digite o peso do seu paciente" class="campo campo-medio">
+			        </div>
+			        <div class="grupo">
+			            <label for="altura">Altura:</label>
+			            <input id="altura" name="altura" type="text" placeholder="digite a altura do seu paciente" class="campo campo-medio">
+			        </div>
+			        <div class="grupo">
+			            <label for="gordura">% de Gordura:</label>
+			            <input id="gordura" type="text" placeholder="digite a porcentagem de gordura do seu paciente" class="campo campo-medio">
+			        </div>
+
+			        <button id="adicionar-paciente" class="botao bto-principal">Adicionar</button>
+			    </form>
+			</section>
  		
  		<script src="js/principal.js"></script>
-
 
 	</body>
 </html>
 
-
 # principal.js #
 
-  var titulo = documnet.querySelector(".titulo");
+var titulo = documnet.querySelector(".titulo");
 titulo.textContent = "Aperecida Nutricionista"
 
 var pacientes = document.quarySelectorAll(".paciente")
 
 for(var i = 0; i < paciente.length; i++){
 
-    var paciente= pacientes[i];
+        var paciente= pacientes[i];
 
-    var tdPeso = paciente.quarySelector(".info-peso")
-var peso = tdPeso.textContent;
+        var tdPeso = paciente.quarySelector(".info-peso")
+    var peso = tdPeso.textContent;
 
-var tdAltura = paciente.quarySelector(".info-altura")
-var altura = tdAltura.textContent;
+    var tdAltura = paciente.quarySelector(".info-altura")
+    var altura = tdAltura.textContent;
 
-var pesoEhValido = true; // assumindo de boa fé que o peso é válido
-var alturaEhValida = true; // assumindo de boa fé que a altura é válida
+    var pesoEhValido = true; // assumindo de boa fé que o peso é válido
+    var alturaEhValida = true; // assumindo de boa fé que a altura é válida
 
-if (peso <= 0 || peso > 1000) {
-    console.log("Peso inválido!");
-    pesoEhValido = false;
-    tdPeso.textContent = "Peso inválido!";
-    paciente.classListadd.add("paciente-invalido")
+    if (peso <= 0 || peso > 1000) {
+        console.log("Peso inválido!");
+        pesoEhValido = false;
+        tdPeso.textContent = "Peso inválido!";
+        paciente.classListadd.add("paciente-invalido")
+    }
+
+    if (altura <= 0 || altura >= 3.00) {
+        console.log("Altura inválida!");
+        alturaEhValida = false;
+        tdAltura.textContent = "Altura inválida!";
+        paciente.classListadd.add("paciente-invalido")
+    }
+
+    if (alturaEhValida && pesoEhValido) {
+        var imc = peso / (altura * altura);
+        tdImc.textContent = imc.toFixed(2);    
+    }
 }
 
-if (altura <= 0 || altura >= 3.00) {
-    console.log("Altura inválida!");
-    alturaEhValida = false;
-    tdAltura.textContent = "Altura inválida!";
-    paciente.classListadd.add("paciente-invalido")
-}
+var botaoAdicionar = document.quarySelector("#adicionar-paciente");
+botaoAdicionar.addEventListeener("click",funcion(event){
+   event.preventDefault();
 
-if (alturaEhValida && pesoEhValido) {
-    var imc = peso / (altura * altura);
-    tdImc.textContent = imc.toFixed(2);    
-}
+    var for = documnet.querySelector("#form-adiciona");
 
+    var nome = form.nome.value;
+    var peso = form.peso.value;
+    var altura = form.altura.value;
+    var gordura = form.gordura.value;
+
+    var pacienteTr = createElement("tr");
+
+    var nomeTd = documnet.createElement("td");
+    var pesoTd = documnet.createElement("td");
+    var alturaTd = documnet.createElement("td");
+    var gorduraTd = documnet.createElement("td");
+    var imcTd = documnet.createElement("td");
+
+    nomeTd.textContent = nome;
+    pesoTd.textContent = peso;
+    alturaTd.textContent = altura;
+    gorduraTd.textContent = gordura;
+    imcTd.textContent = imc;
+
+    pacienteTr.appenChild(nomeTd);
+    pacienteTr.appenChild(pesoTd);
+    pacienteTr.appenChild(alturaTd);
+    pacienteTr.appenChild(gorduraTd);
+    pacienteTr.appenChild(imcTd);
+
+    var tabela = documnet.querySelector("#tabela-pacientes")
+
+    tabela.appenChild(pacientetr);
+
+});
 
 ### index.css ###
  
-*{
+ *{
 	box-sizing: border-box;
  }
 
