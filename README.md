@@ -79,6 +79,9 @@
 
 			<section class="container">
 			    <h2 id="titulo-form">Adicionar novo paciente</h2>
+			    <ul id="mensagens-erro">
+			    	<li></li>
+			    </ul>
 			    <form id="form-adiciona">
 			        <div class="grupo">
 			            <label for="nome">Nome:</label>
@@ -103,6 +106,7 @@
  		
  		<script src="js/calcula-imc.js"></script>
  		<script src="js/form.js"></script>
+ 		<script src="js/remover-pacientes.js"></script>
 
 	</body>
 </html>
@@ -124,17 +128,17 @@ for(var i = 0; i < paciente.length; i++){
     var tdAltura = paciente.quarySelector(".info-altura")
     var altura = tdAltura.textContent;
 
-    var pesoEhValido = true; // assumindo de boa fé que o peso é válido
-    var alturaEhValida = true; // assumindo de boa fé que a altura é válida
+    var pesoEhValido = validaPeso(peso) // true ou false
+    var alturaEhValida = validaAltura(altura)
 
-    if (peso <= 0 || peso > 1000) {
+    if (!pesoEhValido) {
         console.log("Peso inválido!");
         pesoEhValido = false;
         tdPeso.textContent = "Peso inválido!";
         paciente.classListadd.add("paciente-invalido")
     }
 
-    if (altura <= 0 || altura >= 3.00) {
+    if (!alturaEhValida) {
         console.log("Altura inválida!");
         alturaEhValida = false;
         tdAltura.textContent = "Altura inválida!";
@@ -146,6 +150,21 @@ for(var i = 0; i < paciente.length; i++){
         tdImc.textContent = imc;    
     }
 }
+
+function validaPeso(peso){
+    if(peso >=0 && pes0 <1000){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function validaAltura(altura) {
+    if(altura >=0 && altura <=3.0)
+        return true;
+    }else{
+        return false;
+    }
 
 function calculaImc(peso,altura){
     var imc = 0;
@@ -161,7 +180,7 @@ var botaoAdicionar = document.quarySelector("#adicionar-paciente");
 botaoAdicionar.addEventListeener("click",funcion(event){
    event.preventDefault();
 
-    var for = documnet.querySelector("#form-adiciona");
+   var for = documnet.querySelector("#form-adiciona");
 
 //extraundo info dos pacinetes form
    var paciente = obtemPacienteDoFormulario(form);
@@ -169,13 +188,34 @@ botaoAdicionar.addEventListeener("click",funcion(event){
 //cria a tr e a td do paciente
    var pacienteTr = montaTr(paciente)
 
+
+//sobre erros
+   var erros = validaPaciente(paciente);
+
+   if(erros.length >0{
+      exibeMensagensDeErro(erros);
+      return;
+}
+
+function exibeMensagensDeErro(erros){
+   var ul = document.quarySelector("#mensagens-erro")
+   ul.innerHTML = "";
+
+   erros.forEach(function(erro){
+      var li = document.createElement("li")
+      li.textContent = erro;
+      ul.appenChild(li);
+   });
+}
+
 //adicionando o pacinete na tabela
-    var tabela = documnet.querySelector("#tabela-pacientes")
-    tabela.appenChild(pacientetr);
-    form.reset();
+   var tabela = documnet.querySelector("#tabela-pacientes")
+   tabela.appenChild(pacientetr);
+   form.reset();
+   var mensagensErro = documnet.querySelector("#mensagens-erro")
+   mensagensErro.innerHTML = "";
 
 });
-
 
 function obtemPacienteDoFormulatio(form){
 
@@ -213,3 +253,198 @@ function montaTd(){
 
    return td;
 }
+
+function validaPaciente(paciente){
+
+   var erros = [];
+
+   if(paciente.nome.length == 0){
+      erros.push("O nome não pode ser em branco!");
+   }
+   if(!validaPeso(paciente.peso){ 
+      erros.push("Peso é inválido!");
+   }
+
+   if(!validaAltura(paciente.altura)}
+      erros.push("Altura é inválida!");
+   }
+
+   if(paciente.gordura.length ==0){
+      erros.push("A gordura não pode ser em branco");
+   }
+
+   if(paciente.peso.length ==0){
+      erros.push("O peso não pode ser em branco");
+   }
+
+   if(paciente.altura.length ==0){
+      erros.push("A altura não pode ser em branco");
+   }
+
+
+   return erros;
+}
+
+## remover-pacientes.js ##
+
+var tabela = document.quarySelectorAll("table")
+
+tabela.addEventListeener("dblclick", function(event){
+	event.target.parentNode.classList.add("fadeOut");
+
+	setTimeout(function(){
+		event.target.parentNode.remove()
+	},500);
+});
+
+## index.css ##
+
+*{
+	box-sizing: border-box;
+ }
+
+body{
+	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+}
+
+header{
+	background-color: #333;
+	height: 3em;
+	color: #FFF;
+	margin-bottom: 1em;
+}
+
+header h1{
+	font-size: 2em;
+	display:inline-block;
+	vertical-align:	middle;
+}
+header h2{
+	font-size: 2em;
+	display:inline-block;
+	vertical-align:	middle;
+}
+
+header .container:before{
+	content: '';
+	display:inline-block;
+	height: 100%;
+	vertical-align:	middle;
+}
+
+.container{
+	width: 60%;
+	height: 100%;
+	margin: 0 auto;
+}
+
+section{
+	margin: 2em 0;
+	overflow: hidden;
+}
+
+section h2{
+	font-size: 3em;
+	display: block;
+	padding-bottom: .5em;
+	border-bottom: 1px solid #ccc;
+	margin-bottom: .5em;
+}
+
+table{
+	width: 100%;
+	margin-bottom : .5em;
+    table-layout: fixed;
+
+}
+
+td, th {
+	padding: .7em;
+	margin: 0;
+	border: 1px solid #ccc;
+	text-align: center;
+}
+
+th{
+	font-weight: bold;
+	background-color: #EEE;
+}
+
+label{
+	color: #555;
+	display: block;
+	margin-bottom: .2em;
+}
+
+.campo{
+	margin: 0;
+	padding-bottom: 1em;
+	width: 100%;
+	border: 1px solid #ccc;
+	padding: .7em;
+	width: 100%;
+}
+
+.campo-medio{
+	display: inline-block;
+	padding-right: .5em;
+}
+
+.grupo{
+	width: 32%;
+	display: inline-block;
+	padding: 10px 0px;
+}
+
+button{
+	padding: .5em 2em;
+	border: 0;
+	border-bottom: 3px solid;
+	font-size: 1.2em;
+	cursor: pointer;
+	margin: 0;
+	margin-top: -3px;
+	color: #fff;
+	background-color:#0c8cd3;
+	border-color: #04324c;
+	width: 20%;
+    display: block;
+    clear: both;
+    margin: 10px 0px;
+
+}
+
+button:active{
+	margin-top:0px;
+	border: 0;
+}
+
+button[disabled=disabled], button:disabled {
+    background-color: gray;
+	border-color: darkgray;
+
+}
+
+.adicionar-paciente{
+    margin-top: 30px;
+}
+
+.campo-invalido{
+	border: 1px solid red;
+}
+
+.paciente-invalido{
+	background-color: lightcoral;
+}
+
+#mensagens-erro{
+	color: red;
+}
+
+.fadeOut{
+	opacity: 0;
+	transition: 0.5s;
+
+}
+
