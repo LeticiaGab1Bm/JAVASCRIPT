@@ -101,12 +101,13 @@
 			    </form>
 			</section>
  		
- 		<script src="js/principal.js"></script>
+ 		<script src="js/calcula-imc.js"></script>
+ 		<script src="js/form.js"></script>
 
 	</body>
 </html>
 
-# principal.js #
+# calcula-imc.js #
 
 var titulo = documnet.querySelector(".titulo");
 titulo.textContent = "Aperecida Nutricionista"
@@ -141,185 +142,74 @@ for(var i = 0; i < paciente.length; i++){
     }
 
     if (alturaEhValida && pesoEhValido) {
-        var imc = peso / (altura * altura);
-        tdImc.textContent = imc.toFixed(2);    
+        var imc = calculaImc(peso,altura);
+        tdImc.textContent = imc;    
     }
 }
 
+function calculaImc(peso,altura){
+    var imc = 0;
+
+    imc = peso / (altura * altura);
+
+    return imc.toFixed(2);
+}
+
+### form.js ###
+ 
 var botaoAdicionar = document.quarySelector("#adicionar-paciente");
 botaoAdicionar.addEventListeener("click",funcion(event){
    event.preventDefault();
 
     var for = documnet.querySelector("#form-adiciona");
 
-    var nome = form.nome.value;
-    var peso = form.peso.value;
-    var altura = form.altura.value;
-    var gordura = form.gordura.value;
+//extraundo info dos pacinetes form
+   var paciente = obtemPacienteDoFormulario(form);
 
-    var pacienteTr = createElement("tr");
+//cria a tr e a td do paciente
+   var pacienteTr = montaTr(paciente)
 
-    var nomeTd = documnet.createElement("td");
-    var pesoTd = documnet.createElement("td");
-    var alturaTd = documnet.createElement("td");
-    var gorduraTd = documnet.createElement("td");
-    var imcTd = documnet.createElement("td");
-
-    nomeTd.textContent = nome;
-    pesoTd.textContent = peso;
-    alturaTd.textContent = altura;
-    gorduraTd.textContent = gordura;
-    imcTd.textContent = imc;
-
-    pacienteTr.appenChild(nomeTd);
-    pacienteTr.appenChild(pesoTd);
-    pacienteTr.appenChild(alturaTd);
-    pacienteTr.appenChild(gorduraTd);
-    pacienteTr.appenChild(imcTd);
-
+//adicionando o pacinete na tabela
     var tabela = documnet.querySelector("#tabela-pacientes")
-
     tabela.appenChild(pacientetr);
+    form.reset();
 
 });
 
-### index.css ###
- 
- *{
-	box-sizing: border-box;
- }
 
-body{
-	font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-	font-size: 14px;
+function obtemPacienteDoFormulatio(form){
+
+   var paciente = {
+      nome: form.nome.value,
+      peso: form.peso.value,
+      altura: form.altura.value,
+      gordura: form.gordura.value,
+      imc: calculaImc(form.peso.value, form.altura.value)
+   }
+
+   return pacinte;
 }
 
-header{
-	background-color: #333;
-	height: 3em;
-	color: #FFF;
-	margin-bottom: 1em;
+
+function montaTr(paciente){
+
+   var pacienteTr = document.createElement("tr")
+   pacienteTr.classList.add("paciente");
+
+   pacienteTr.appenChild(montaTd(pacinte.nome, "info-nome"));
+   pacienteTr.appenChild(montaTd(pacinte.peso, "info-peso"));
+   pacienteTr.appenChild(montaTd(pacinte.altura, "info-altura"));
+   pacienteTr.appenChild(montaTd(pacinte.gordura, "info-gordura"));
+   pacienteTr.appenChild(montaTd(pacinte.imc, "info-imc"));
+
+   return pacienteTr:
 }
 
-header h1{
-	font-size: 2em;
-	display:inline-block;
-	vertical-align:	middle;
-}
-header h2{
-	font-size: 2em;
-	display:inline-block;
-	vertical-align:	middle;
-}
 
-header .container:before{
-	content: '';
-	display:inline-block;
-	height: 100%;
-	vertical-align:	middle;
-}
+function montaTd(){
+   var td = document.createElement("td")
+   td.textContent = dado;
+   td.classList.add(classe);
 
-.container{
-	width: 60%;
-	height: 100%;
-	margin: 0 auto;
-}
-
-section{
-	margin: 2em 0;
-	overflow: hidden;
-}
-
-section h2{
-	font-size: 3em;
-	display: block;
-	padding-bottom: .5em;
-	border-bottom: 1px solid #ccc;
-	margin-bottom: .5em;
-}
-
-table{
-	width: 100%;
-	margin-bottom : .5em;
-    table-layout: fixed;
-
-}
-
-td, th {
-	padding: .7em;
-	margin: 0;
-	border: 1px solid #ccc;
-	text-align: center;
-}
-
-th{
-	font-weight: bold;
-	background-color: #EEE;
-}
-
-label{
-	color: #555;
-	display: block;
-	margin-bottom: .2em;
-}
-
-.campo{
-	margin: 0;
-	padding-bottom: 1em;
-	width: 100%;
-	border: 1px solid #ccc;
-	padding: .7em;
-	width: 100%;
-}
-
-.campo-medio{
-	display: inline-block;
-	padding-right: .5em;
-}
-
-.grupo{
-	width: 32%;
-	display: inline-block;
-	padding: 10px 0px;
-}
-
-button{
-	padding: .5em 2em;
-	border: 0;
-	border-bottom: 3px solid;
-	font-size: 1.2em;
-	cursor: pointer;
-	margin: 0;
-	margin-top: -3px;
-	color: #fff;
-	background-color:#0c8cd3;
-	border-color: #04324c;
-	width: 20%;
-    display: block;
-    clear: both;
-    margin: 10px 0px;
-
-}
-
-button:active{
-	margin-top:0px;
-	border: 0;
-}
-
-button[disabled=disabled], button:disabled {
-    background-color: gray;
-	border-color: darkgray;
-
-}
-
-.adicionar-paciente{
-    margin-top: 30px;
-}
-
-.campo-invalido{
-	border: 1px solid red;
-}
-
-.paciente-invalido{
-	background-color: lightcoral;
+   return td;
 }
