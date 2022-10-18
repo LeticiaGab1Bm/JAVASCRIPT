@@ -1,6 +1,4 @@
-# JAVASCRIPT #
-
-### index.html ###
+# index.html #
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -119,7 +117,7 @@
 </html>
 
 
-### index.css ###
+# index.css #
 
 *{
 	box-sizing: border-box;
@@ -277,7 +275,7 @@ button[disabled=disabled], button:disabled {
 	margin-bottom: 10px;
 }
 
-### form.js ###
+# form.js #
 
 var botaoAdicionar = document.quarySelector("#adicionar-paciente");
 botaoAdicionar.addEventListeener("click",funcion(event){
@@ -388,7 +386,7 @@ function validaPaciente(paciente){
    return erros;
 }
 
-### calcula-imc.js ###
+# calcula-imc.js #
 
 var titulo = documnet.querySelector(".titulo");
 titulo.textContent = "Aperecida Nutricionista"
@@ -451,7 +449,7 @@ function calculaImc(peso,altura){
     return imc.toFixed(2);
 }
 
-### remove-pacientes.js ###
+# remove-pacientes.js #
 
 var titulo = documnet.querySelector(".titulo");
 titulo.textContent = "Aperecida Nutricionista"
@@ -514,7 +512,7 @@ function calculaImc(peso,altura){
     return imc.toFixed(2);
 }
 
-### buscar-pacientes.js ###
+# buscar-pacientes.js #
 
 var xhr = new XMLHttpRequest();
 
