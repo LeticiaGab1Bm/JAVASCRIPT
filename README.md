@@ -1,3 +1,5 @@
+# JAVASCRIPT #
+
 # index.html #
 
 <!DOCTYPE html>
