@@ -22,6 +22,8 @@
 		<main>
 			<section class="container">
 				<h2>Meus pacientes</h2>
+				<label for="filtrar-tabela">filtre</label>
+				<input type="text" name="filtro" id="filtrar-tabela" placeholder="nome do paciente">
 				<table>
 					<thead>
 						<tr>
@@ -74,6 +76,9 @@
 					</tbody>
 				</table>
 
+				 <button id="buscar-paciente" class="botao bto-principal">Buscar Pacientes</button>
+				 <span id="erro-ajax" class="invisivel">Erro ao buscar os pacientes</span>
+
 			</section>
 		</main>
 
@@ -107,197 +112,14 @@
  		<script src="js/calcula-imc.js"></script>
  		<script src="js/form.js"></script>
  		<script src="js/remover-pacientes.js"></script>
+ 		<script src="js/filtar.js"></script>
+ 		<script src="js/buscar-pacientes.js"></script>
 
 	</body>
 </html>
 
-# calcula-imc.js #
 
-var titulo = documnet.querySelector(".titulo");
-titulo.textContent = "Aperecida Nutricionista"
-
-var pacientes = document.quarySelectorAll(".paciente")
-
-for(var i = 0; i < paciente.length; i++){
-
-        var paciente= pacientes[i];
-
-        var tdPeso = paciente.quarySelector(".info-peso")
-    var peso = tdPeso.textContent;
-
-    var tdAltura = paciente.quarySelector(".info-altura")
-    var altura = tdAltura.textContent;
-
-    var pesoEhValido = validaPeso(peso) // true ou false
-    var alturaEhValida = validaAltura(altura)
-
-    if (!pesoEhValido) {
-        console.log("Peso inválido!");
-        pesoEhValido = false;
-        tdPeso.textContent = "Peso inválido!";
-        paciente.classListadd.add("paciente-invalido")
-    }
-
-    if (!alturaEhValida) {
-        console.log("Altura inválida!");
-        alturaEhValida = false;
-        tdAltura.textContent = "Altura inválida!";
-        paciente.classListadd.add("paciente-invalido")
-    }
-
-    if (alturaEhValida && pesoEhValido) {
-        var imc = calculaImc(peso,altura);
-        tdImc.textContent = imc;    
-    }
-}
-
-function validaPeso(peso){
-    if(peso >=0 && pes0 <1000){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-function validaAltura(altura) {
-    if(altura >=0 && altura <=3.0)
-        return true;
-    }else{
-        return false;
-    }
-
-function calculaImc(peso,altura){
-    var imc = 0;
-
-    imc = peso / (altura * altura);
-
-    return imc.toFixed(2);
-}
-
-### form.js ###
- 
-var botaoAdicionar = document.quarySelector("#adicionar-paciente");
-botaoAdicionar.addEventListeener("click",funcion(event){
-   event.preventDefault();
-
-   var for = documnet.querySelector("#form-adiciona");
-
-//extraundo info dos pacinetes form
-   var paciente = obtemPacienteDoFormulario(form);
-
-//cria a tr e a td do paciente
-   var pacienteTr = montaTr(paciente)
-
-
-//sobre erros
-   var erros = validaPaciente(paciente);
-
-   if(erros.length >0{
-      exibeMensagensDeErro(erros);
-      return;
-}
-
-function exibeMensagensDeErro(erros){
-   var ul = document.quarySelector("#mensagens-erro")
-   ul.innerHTML = "";
-
-   erros.forEach(function(erro){
-      var li = document.createElement("li")
-      li.textContent = erro;
-      ul.appenChild(li);
-   });
-}
-
-//adicionando o pacinete na tabela
-   var tabela = documnet.querySelector("#tabela-pacientes")
-   tabela.appenChild(pacientetr);
-   form.reset();
-   var mensagensErro = documnet.querySelector("#mensagens-erro")
-   mensagensErro.innerHTML = "";
-
-});
-
-function obtemPacienteDoFormulatio(form){
-
-   var paciente = {
-      nome: form.nome.value,
-      peso: form.peso.value,
-      altura: form.altura.value,
-      gordura: form.gordura.value,
-      imc: calculaImc(form.peso.value, form.altura.value)
-   }
-
-   return pacinte;
-}
-
-
-function montaTr(paciente){
-
-   var pacienteTr = document.createElement("tr")
-   pacienteTr.classList.add("paciente");
-
-   pacienteTr.appenChild(montaTd(pacinte.nome, "info-nome"));
-   pacienteTr.appenChild(montaTd(pacinte.peso, "info-peso"));
-   pacienteTr.appenChild(montaTd(pacinte.altura, "info-altura"));
-   pacienteTr.appenChild(montaTd(pacinte.gordura, "info-gordura"));
-   pacienteTr.appenChild(montaTd(pacinte.imc, "info-imc"));
-
-   return pacienteTr:
-}
-
-
-function montaTd(){
-   var td = document.createElement("td")
-   td.textContent = dado;
-   td.classList.add(classe);
-
-   return td;
-}
-
-function validaPaciente(paciente){
-
-   var erros = [];
-
-   if(paciente.nome.length == 0){
-      erros.push("O nome não pode ser em branco!");
-   }
-   if(!validaPeso(paciente.peso){ 
-      erros.push("Peso é inválido!");
-   }
-
-   if(!validaAltura(paciente.altura)}
-      erros.push("Altura é inválida!");
-   }
-
-   if(paciente.gordura.length ==0){
-      erros.push("A gordura não pode ser em branco");
-   }
-
-   if(paciente.peso.length ==0){
-      erros.push("O peso não pode ser em branco");
-   }
-
-   if(paciente.altura.length ==0){
-      erros.push("A altura não pode ser em branco");
-   }
-
-
-   return erros;
-}
-
-## remover-pacientes.js ##
-
-var tabela = document.quarySelectorAll("table")
-
-tabela.addEventListeener("dblclick", function(event){
-	event.target.parentNode.classList.add("fadeOut");
-
-	setTimeout(function(){
-		event.target.parentNode.remove()
-	},500);
-});
-
-## index.css ##
+# index.css #
 
 *{
 	box-sizing: border-box;
@@ -448,3 +270,272 @@ button[disabled=disabled], button:disabled {
 
 }
 
+
+#filtrar-tabela{
+	width: 200px;
+	height: 35px;
+	margin-bottom: 10px;
+}
+
+### form.js ###
+
+var botaoAdicionar = document.quarySelector("#adicionar-paciente");
+botaoAdicionar.addEventListeener("click",funcion(event){
+   event.preventDefault();
+
+   var for = documnet.querySelector("#form-adiciona");
+
+//extraundo info dos pacinetes form
+   var paciente = obtemPacienteDoFormulario(form);
+
+//cria a tr e a td do paciente
+   var pacienteTr = montaTr(paciente)
+
+
+//sobre erros
+   var erros = validaPaciente(paciente);
+
+   if(erros.length >0{
+      exibeMensagensDeErro(erros);
+      return;
+}
+
+function exibeMensagensDeErro(erros){
+   var ul = document.quarySelector("#mensagens-erro")
+   ul.innerHTML = "";
+
+   erros.forEach(function(erro){
+      var li = document.createElement("li")
+      li.textContent = erro;
+      ul.appenChild(li);
+   });
+}
+
+//adicionando o pacinete na tabela
+   var tabela = documnet.querySelector("#tabela-pacientes")
+   tabela.appenChild(pacientetr);
+   form.reset();
+   var mensagensErro = documnet.querySelector("#mensagens-erro")
+   mensagensErro.innerHTML = "";
+
+});
+
+function obtemPacienteDoFormulatio(form){
+
+   var paciente = {
+      nome: form.nome.value,
+      peso: form.peso.value,
+      altura: form.altura.value,
+      gordura: form.gordura.value,
+      imc: calculaImc(form.peso.value, form.altura.value)
+   }
+
+   return pacinte;
+}
+
+
+function montaTr(paciente){
+
+   var pacienteTr = document.createElement("tr")
+   pacienteTr.classList.add("paciente");
+
+   pacienteTr.appenChild(montaTd(pacinte.nome, "info-nome"));
+   pacienteTr.appenChild(montaTd(pacinte.peso, "info-peso"));
+   pacienteTr.appenChild(montaTd(pacinte.altura, "info-altura"));
+   pacienteTr.appenChild(montaTd(pacinte.gordura, "info-gordura"));
+   pacienteTr.appenChild(montaTd(pacinte.imc, "info-imc"));
+
+   return pacienteTr:
+}
+
+
+function montaTd(){
+   var td = document.createElement("td")
+   td.textContent = dado;
+   td.classList.add(classe);
+
+   return td;
+}
+
+function validaPaciente(paciente){
+
+   var erros = [];
+
+   if(paciente.nome.length == 0){
+      erros.push("O nome não pode ser em branco!");
+   }
+   if(!validaPeso(paciente.peso){ 
+      erros.push("Peso é inválido!");
+   }
+
+   if(!validaAltura(paciente.altura)}
+      erros.push("Altura é inválida!");
+   }
+
+   if(paciente.gordura.length ==0){
+      erros.push("A gordura não pode ser em branco");
+   }
+
+   if(paciente.peso.length ==0){
+      erros.push("O peso não pode ser em branco");
+   }
+
+   if(paciente.altura.length ==0){
+      erros.push("A altura não pode ser em branco");
+   }
+
+
+   return erros;
+}
+
+### calcula-imc.js ###
+
+var titulo = documnet.querySelector(".titulo");
+titulo.textContent = "Aperecida Nutricionista"
+
+var pacientes = document.quarySelectorAll(".paciente")
+
+for(var i = 0; i < paciente.length; i++){
+
+        var paciente= pacientes[i];
+
+        var tdPeso = paciente.quarySelector(".info-peso")
+    var peso = tdPeso.textContent;
+
+    var tdAltura = paciente.quarySelector(".info-altura")
+    var altura = tdAltura.textContent;
+
+    var pesoEhValido = validaPeso(peso) // true ou false
+    var alturaEhValida = validaAltura(altura)
+
+    if (!pesoEhValido) {
+        console.log("Peso inválido!");
+        pesoEhValido = false;
+        tdPeso.textContent = "Peso inválido!";
+        paciente.classListadd.add("paciente-invalido")
+    }
+
+    if (!alturaEhValida) {
+        console.log("Altura inválida!");
+        alturaEhValida = false;
+        tdAltura.textContent = "Altura inválida!";
+        paciente.classListadd.add("paciente-invalido")
+    }
+
+    if (alturaEhValida && pesoEhValido) {
+        var imc = calculaImc(peso,altura);
+        tdImc.textContent = imc;    
+    }
+}
+
+function validaPeso(peso){
+    if(peso >=0 && pes0 <1000){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function validaAltura(altura) {
+    if(altura >=0 && altura <=3.0)
+        return true;
+    }else{
+        return false;
+    }
+
+function calculaImc(peso,altura){
+    var imc = 0;
+
+    imc = peso / (altura * altura);
+
+    return imc.toFixed(2);
+}
+
+### remove-pacientes.js ###
+
+var titulo = documnet.querySelector(".titulo");
+titulo.textContent = "Aperecida Nutricionista"
+
+var pacientes = document.quarySelectorAll(".paciente")
+
+for(var i = 0; i < paciente.length; i++){
+
+        var paciente= pacientes[i];
+
+        var tdPeso = paciente.quarySelector(".info-peso")
+    var peso = tdPeso.textContent;
+
+    var tdAltura = paciente.quarySelector(".info-altura")
+    var altura = tdAltura.textContent;
+
+    var pesoEhValido = validaPeso(peso) // true ou false
+    var alturaEhValida = validaAltura(altura)
+
+    if (!pesoEhValido) {
+        console.log("Peso inválido!");
+        pesoEhValido = false;
+        tdPeso.textContent = "Peso inválido!";
+        paciente.classListadd.add("paciente-invalido")
+    }
+
+    if (!alturaEhValida) {
+        console.log("Altura inválida!");
+        alturaEhValida = false;
+        tdAltura.textContent = "Altura inválida!";
+        paciente.classListadd.add("paciente-invalido")
+    }
+
+    if (alturaEhValida && pesoEhValido) {
+        var imc = calculaImc(peso,altura);
+        tdImc.textContent = imc;    
+    }
+}
+
+function validaPeso(peso){
+    if(peso >=0 && pes0 <1000){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function validaAltura(altura) {
+    if(altura >=0 && altura <=3.0)
+        return true;
+    }else{
+        return false;
+    }
+
+function calculaImc(peso,altura){
+    var imc = 0;
+
+    imc = peso / (altura * altura);
+
+    return imc.toFixed(2);
+}
+
+### buscar-pacientes.js ###
+
+var xhr = new XMLHttpRequest();
+
+xhr.open("GET", "https://api-pacientes.herokuapp.com/pacientes");
+
+xhr.addEventListener("load", function() {
+    var erroAjax = document.querySelector("#erro-ajax");
+    if (xhr.status == 200) {
+        erroAjax.classList.add("invisivel");
+        var resposta = xhr.responseText;
+        var pacientes = JSON.parse(resposta);
+
+        pacientes.forEach(function(paciente) {
+            adicionaPacienteNaTabela(paciente);
+        });
+    } else {
+        console.log( xhr.status);
+        console.log( xhr.responseText);
+
+        erroAjax.classList.remove("invisivel");
+    }
+
+xhr.send();
+});
